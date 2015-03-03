@@ -1,6 +1,6 @@
 # NAME
 
-List::Prefixed - Prefixed string list implementation
+List::Prefixed - Prefixed String List
 
 # SYNOPSIS
 
@@ -20,7 +20,7 @@ List::Prefixed - Prefixed string list implementation
 
 # DESCRIPTION
 
-The idea of Prefixed Lists comes from regular expressions determining a finite
+The idea of a _Prefixed List_ comes from regular expressions determining a finite
 list of words, like this:
 
     /(?:Ba(?:r|z)?|F(?:o(?:o(?:d|t)?|r(?:m)?)|u))/
@@ -30,16 +30,37 @@ The expression above matches exactly these strings:
 
     "Ba", "Bar", "Baz", "Foo", "Food", "Foot", "For", "Form", "Fu".
 
-Representing a string list that way may have some advantages in certain situations:
+Representing a string list that way can have some advantages in certain situations:
 
-- The representation as a regular expression provides efficient methods to test whether
-or not an arbitrary string starts or ends with an element from the list or is contained
-in the list itself.
+- The regular expression provides efficient test methods on arbitrary strings
+(e.g. whether or not a string is contained in the list or starts or ends with an element
+from the list).
 - The representaion is compressing, depending on how many shared prefixes appear in a list.
 - Conversely, a prefixed list can be efficiently set up from such a regular expression.
 Thus, the prefixed list leads to a natural way of serialization and de-serialization.
 - Sub lists sharing a common prefix can be extracted efficently from a prefixed list. 
 This leads to an efficient implementation of auto-completion.
+
+A _Prefixed List_ is a tree consisting of node triples, formally defined as follows:
+
+    node: ( prefix [node-list] opt )
+      where:
+        prefix: String
+        node-list: List of node
+        opt: Boolean
+
+The list elements are the prefix strings, each of them appended to the prefix of the parent node. 
+The `opt` flag is true if the list of sub nodes is optional, i.e., if the node prefix appended 
+together with the parent prefixes is also contained in the list itself.
+      
+
+Any string list has a trivial representation that way, if one takes each string as the prefix
+of a node with empty node-list and collects all these nodes into a parent node with empty prefix.
+
+A prefixed tree is called _folded_, if it's in minimal form, i.e. if there are no two
+child nodes in a parent node sharing a common left part in their prefixes. Obviously, for 
+each string list, there exists a unique folded Prefixed Tree representation.
+      
 
 # METHODS
 
@@ -47,27 +68,27 @@ This leads to an efficient implementation of auto-completion.
 
     $prefixed = List::Prefixed->new( @list );
 
-This is an alias of the [fold](https://metacpan.org/pod/fold) method.
+This is an alias of the [fold](#fold) method.
 
 ## fold
 
     $prefixed = List::Prefixed->fold( @list );
 
-Constructs a new [List::Prefixed](https://metacpan.org/pod/List::Prefixed) tree from the given string list.
+Constructs a new folded `List::Prefixed` tree from the given string list.
 
 ## unfold
 
     $prefixed = List::Prefixed->unfold( $regex );
 
-Constructs a new [List::Prefixed](https://metacpan.org/pod/List::Prefixed) tree from a regular expression string.
-The string argument shuld be obtained from the [regex](https://metacpan.org/pod/regex) method.
+Constructs a new `List::Prefixed` tree from a regular expression string.
+The string argument shuld be obtained from the [regex](#regex) method.
 
 ## list
 
     @list = $prefixed->list;
     @list = $prefixed->list( $string );
 
-Returns the list of strings starting with the given argument if a string argument
+Returns the list of list elements starting with the given string if a string argument
 is present or the whole list otherwise. In scalar context an ARRAY reference is
 returned.
 
@@ -79,10 +100,10 @@ Returns a minimized regular expression (as string) matching exactly the strings
 the object has been constructed with.
 
 You can control the escaping style of the expression. The default behavior is
-to apply Perl's quotemeta function and replace any non-ASCII character with
-`\x{FFFF}`, where `FFFF` is the hexadecimal character code. This is the
-Perl-compatible or PCRE style. To obtain an expression compatible with Java
-and the like, use
+to apply Perl's [quotemeta](http://perldoc.perl.org/functions/quotemeta.html) function
+and replace any non-ASCII character with `\x{FFFF}`, where `FFFF` is the hexadecimal
+character code. This is the Perl-compatible or PCRE style. To obtain an expression
+compatible with Java and the like, use
 
     use List::Prefixed uc_escape_style => 'Java'; # \uFFFF style
 
@@ -91,14 +112,14 @@ To skip Unicode escaping completely, use
     use List::Prefixed uc_escape_style => undef;  # do not escape
 
 Alternatively, you can control the style at runtime by way of
-[CONFIGURATION VARIABLES](#configuration-variables).
+[configuration variables](#configuration-variables).
 
 # CONFIGURATION VARIABLES
 
 - _$UC\_ESCAPE\_STYLE_
 
-    Control the escaping style for Unicode (non-ASCII) characters.
-    The value can be ono of the following:
+    Controls the escaping style for Unicode (non-ASCII) characters.
+    The value can be one of the following:
 
     - _'PCRE'_
 
@@ -113,10 +134,10 @@ Alternatively, you can control the style at runtime by way of
         Do not escape Unicode characters at all. This may result in shorter expressions
         but may cause encoding issues under some circumstances.
 
-    - _$REGEX\_ESCAPE_, _$REGEX\_UNESCAPE_
+- _$REGEX\_ESCAPE_, _$REGEX\_UNESCAPE_
 
-        By providing string functions one can customize the escaping behavior arbitrarily.
-        In this case, `$UC_ESCAPE_STYLE` has no effect.
+    By providing string functions one can customize the escaping behavior arbitrarily.
+    In this case, `$UC_ESCAPE_STYLE` has no effect.
 
 # EXPORT
 

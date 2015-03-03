@@ -78,14 +78,7 @@ sub import {
   $REGEX_UNESCAPE = $args{regex_unescape} if exists $args{regex_unescape};
 }
 
-# -- private --
-
-#my $RE_PREFIX = qr//;
-
-
 # -- public --
-
-
 
 # Construct a Prefixed object from a string list
 sub fold {
@@ -277,7 +270,7 @@ __END__
 
 =head1 NAME
 
-List::Prefixed - Prefixed string list implementation
+List::Prefixed - Prefixed String List
 
 =head1 SYNOPSIS
 
@@ -297,7 +290,7 @@ List::Prefixed - Prefixed string list implementation
 
 =head1 DESCRIPTION
 
-The idea of Prefixed Lists comes from regular expressions determining a finite
+The idea of a I<Prefixed List> comes from regular expressions determining a finite
 list of words, like this:
 
   /(?:Ba(?:r|z)?|F(?:o(?:o(?:d|t)?|r(?:m)?)|u))/
@@ -306,15 +299,15 @@ The expression above matches exactly these strings:
 
   "Ba", "Bar", "Baz", "Foo", "Food", "Foot", "For", "Form", "Fu".
 
-Representing a string list that way may have some advantages in certain situations:
+Representing a string list that way can have some advantages in certain situations:
 
 =over 4
 
 =item *
 
-The representation as a regular expression provides efficient methods to test whether
-or not an arbitrary string starts or ends with an element from the list or is contained
-in the list itself.
+The regular expression provides efficient test methods on arbitrary strings
+(e.g. whether or not a string is contained in the list or starts or ends with an element
+from the list).
 
 =item *
 
@@ -332,33 +325,52 @@ This leads to an efficient implementation of auto-completion.
 
 =back
 
+A I<Prefixed List> is a tree consisting of node triples, formally defined as follows:
+
+  node: ( prefix [node-list] opt )
+    where:
+      prefix: String
+      node-list: List of node
+      opt: Boolean
+
+The list elements are the prefix strings, each of them appended to the prefix of the parent node. 
+The C<opt> flag is true if the list of sub nodes is optional, i.e., if the node prefix appended 
+together with the parent prefixes is also contained in the list itself.
+      
+Any string list has a trivial representation that way, if one takes each string as the prefix
+of a node with empty node-list and collects all these nodes into a parent node with empty prefix.
+
+A prefixed tree is called I<folded>, if it's in minimal form, i.e. if there are no two
+child nodes in a parent node sharing a common left part in their prefixes. Obviously, for 
+each string list, there exists a unique folded Prefixed Tree representation.
+      
 =head1 METHODS
 
 =head2 new
 
   $prefixed = List::Prefixed->new( @list );
 
-This is an alias of the L<fold|fold> method.
+This is an alias of the L<fold|/fold> method.
 
 =head2 fold
 
   $prefixed = List::Prefixed->fold( @list );
 
-Constructs a new L<List::Prefixed|List::Prefixed> tree from the given string list.
+Constructs a new folded C<List::Prefixed> tree from the given string list.
 
 =head2 unfold
 
   $prefixed = List::Prefixed->unfold( $regex );
 
-Constructs a new L<List::Prefixed|List::Prefixed> tree from a regular expression string.
-The string argument shuld be obtained from the L<regex|regex> method.
+Constructs a new C<List::Prefixed> tree from a regular expression string.
+The string argument shuld be obtained from the L<regex|/regex> method.
 
 =head2 list
 
   @list = $prefixed->list;
   @list = $prefixed->list( $string );
 
-Returns the list of strings starting with the given argument if a string argument
+Returns the list of list elements starting with the given string if a string argument
 is present or the whole list otherwise. In scalar context an ARRAY reference is
 returned.
 
@@ -370,10 +382,10 @@ Returns a minimized regular expression (as string) matching exactly the strings
 the object has been constructed with.
 
 You can control the escaping style of the expression. The default behavior is
-to apply Perl's quotemeta function and replace any non-ASCII character with
-C<\x{FFFF}>, where C<FFFF> is the hexadecimal character code. This is the
-Perl-compatible or PCRE style. To obtain an expression compatible with Java
-and the like, use
+to apply Perl's L<quotemeta|http://perldoc.perl.org/functions/quotemeta.html> function
+and replace any non-ASCII character with C<\x{FFFF}>, where C<FFFF> is the hexadecimal
+character code. This is the Perl-compatible or PCRE style. To obtain an expression
+compatible with Java and the like, use
 
   use List::Prefixed uc_escape_style => 'Java'; # \uFFFF style
 
@@ -382,7 +394,7 @@ To skip Unicode escaping completely, use
   use List::Prefixed uc_escape_style => undef;  # do not escape
 
 Alternatively, you can control the style at runtime by way of
-L<CONFIGURATION VARIABLES|configuration variables>.
+L<configuration variables|/"CONFIGURATION VARIABLES">.
 
 =head1 CONFIGURATION VARIABLES
 
@@ -390,8 +402,8 @@ L<CONFIGURATION VARIABLES|configuration variables>.
 
 =item I<$UC_ESCAPE_STYLE>
 
-Control the escaping style for Unicode (non-ASCII) characters.
-The value can be ono of the following:
+Controls the escaping style for Unicode (non-ASCII) characters.
+The value can be one of the following:
 
 =over 4
 
@@ -408,12 +420,12 @@ Java etc. style C<\uFFFF>
 Do not escape Unicode characters at all. This may result in shorter expressions
 but may cause encoding issues under some circumstances.
 
+=back
+
 =item I<$REGEX_ESCAPE>, I<$REGEX_UNESCAPE>
 
 By providing string functions one can customize the escaping behavior arbitrarily.
 In this case, C<$UC_ESCAPE_STYLE> has no effect.
-
-=back
 
 =back
 
