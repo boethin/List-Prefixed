@@ -47,20 +47,20 @@ This leads to an efficient implementation of auto-completion.
 
     $prefixed = List::Prefixed->new( @list );
 
-This is an alias of the [fold](http://search.cpan.org/perldoc?fold) method.
+This is an alias of the [fold](https://metacpan.org/pod/fold) method.
 
 ## fold
 
     $prefixed = List::Prefixed->fold( @list );
 
-Constructs a new [List::Prefixed](http://search.cpan.org/perldoc?List::Prefixed) tree from the given string list.
+Constructs a new [List::Prefixed](https://metacpan.org/pod/List::Prefixed) tree from the given string list.
 
 ## unfold
 
     $prefixed = List::Prefixed->unfold( $regex );
 
-Constructs a new [List::Prefixed](http://search.cpan.org/perldoc?List::Prefixed) tree from a regular expression string.
-The string argument shuld be obtained from the [regex](http://search.cpan.org/perldoc?regex) method.
+Constructs a new [List::Prefixed](https://metacpan.org/pod/List::Prefixed) tree from a regular expression string.
+The string argument shuld be obtained from the [regex](https://metacpan.org/pod/regex) method.
 
 ## list
 
@@ -79,7 +79,7 @@ Returns a minimized regular expression (as string) matching exactly the strings
 the object has been constructed with.
 
 You can control the escaping style of the expression. The default behavior is
-to apply Perl's P<quotemeta> function and replace any non-ASCII character with
+to apply Perl's quotemeta function and replace any non-ASCII character with
 `\x{FFFF}`, where `FFFF` is the hexadecimal character code. This is the
 Perl-compatible or PCRE style. To obtain an expression compatible with Java
 and the like, use
@@ -91,32 +91,32 @@ To skip Unicode escaping completely, use
     use List::Prefixed uc_escape_style => undef;  # do not escape
 
 Alternatively, you can control the style at runtime by way of
-[CONFIGURATION VARIABLES](#configuration variables).
+[CONFIGURATION VARIABLES](#configuration-variables).
 
 # CONFIGURATION VARIABLES
 
 - _$UC\_ESCAPE\_STYLE_
 
-Control the escaping style for Unicode (non-ASCII) characters.
-The value can be ono of the following:
+    Control the escaping style for Unicode (non-ASCII) characters.
+    The value can be ono of the following:
 
     - _'PCRE'_
 
-    Default style `\x{FFFF}`
+        Default style `\x{FFFF}`
 
     - _'Java'_
 
-    Java etc. style `\uFFFF`
+        Java etc. style `\uFFFF`
 
     - _undef_
 
-    Do not escape Unicode characters at all. This may result in shorter expressions
-    but may cause encoding issues under some circumstances.
+        Do not escape Unicode characters at all. This may result in shorter expressions
+        but may cause encoding issues under some circumstances.
 
     - _$REGEX\_ESCAPE_, _$REGEX\_UNESCAPE_
 
-    By providing string functions one can customize the escaping behavior arbitrarily.
-    In this case, `$UC_ESCAPE_STYLE` has no effect.
+        By providing string functions one can customize the escaping behavior arbitrarily.
+        In this case, `$UC_ESCAPE_STYLE` has no effect.
 
 # EXPORT
 

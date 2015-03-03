@@ -95,7 +95,7 @@ Returns a minimized regular expression (as string) matching exactly the strings
 the object has been constructed with.
 
 You can control the escaping style of the expression. The default behavior is
-to apply Perl's P<quotemeta> function and replace any non-ASCII character with
+to apply Perl's quotemeta function and replace any non-ASCII character with
 C<\x{FFFF}>, where C<FFFF> is the hexadecimal character code. This is the
 Perl-compatible or PCRE style. To obtain an expression compatible with Java
 and the like, use
