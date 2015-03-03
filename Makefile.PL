@@ -8,6 +8,21 @@ WriteMakefile(
 	ABSTRACT_FROM  => 'lib/List/Prefixed.pm', # retrieve abstract from module
 	PREREQ_PM         => {}, # e.g., Module::Name => 1.1
 	AUTHOR         => 'Sebastian Böthinr <boethin@xn--domain.net>',
+	
+  (eval { ExtUtils::MakeMaker->VERSION(6.46) } ? (
+    META_MERGE => {
+      'meta-spec' => { version => 2 },
+        resources => {
+          repository => {
+            type => 'git',
+            url => 'https://github.com/boethin/List-Prefixed.git',
+            web => 'https://github.com/boethin/List-Prefixed',
+          },
+        }
+      }
+    ) : ()
+  ),
+    
 );
 
 sub MY::postamble {
