@@ -139,15 +139,15 @@ The value can be one of the following:
 
 =over 4
 
-=item I<'PCRE'>
+=item C<'PCRE'>
 
 Default style C<\x{FFFF}>
 
-=item I<'Java'>
+=item C<'Java'>
 
 Java etc. style C<\uFFFF>
 
-=item I<undef>
+=item C<undef>
 
 Do not escape Unicode characters at all. This may result in shorter expressions
 but may cause encoding issues under some circumstances.

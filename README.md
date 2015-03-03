@@ -121,15 +121,15 @@ Alternatively, you can control the style at runtime by way of
 Controls the escaping style for Unicode (non-ASCII) characters.
 The value can be one of the following:
 
-    - _'PCRE'_
+    - `'PCRE'`
 
     Default style `\x{FFFF}`
 
-    - _'Java'_
+    - `'Java'`
 
     Java etc. style `\uFFFF`
 
-    - _undef_
+    - `undef`
 
     Do not escape Unicode characters at all. This may result in shorter expressions
     but may cause encoding issues under some circumstances.

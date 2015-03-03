@@ -120,13 +120,13 @@ CONFIGURATION VARIABLES
         Controls the escaping style for Unicode (non-ASCII) characters. The
         value can be one of the following:
 
-        *'PCRE'*
+        'PCRE'
             Default style "\x{FFFF}"
 
-        *'Java'*
+        'Java'
             Java etc. style "\uFFFF"
 
-        *undef*
+        "undef"
             Do not escape Unicode characters at all. This may result in
             shorter expressions but may cause encoding issues under some
             circumstances.
