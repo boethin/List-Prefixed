@@ -4,3 +4,6 @@ Revision history for Perl extension List::Prefixed.
 	- original version; created by h2xs 1.23 with options
 		-AXn List::Prefixed
 
+0.01  Tue Mar  3 21:41:33 CET 2015
+	- Stable version
+
