@@ -65,7 +65,7 @@ DESCRIPTION
     A prefixed tree is called *folded*, if it's in minimal form, i.e. if
     there are no two child nodes in a parent node sharing a common left part
     in their prefixes. Obviously, for each string list, there exists a
-    unique folded Prefixed Tree representation.
+    unique folded *Prefixed Tree* representation.
 
 METHODS
   new

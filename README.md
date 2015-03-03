@@ -59,7 +59,7 @@ of a node with empty node-list and collects all these nodes into a parent node w
 
 A prefixed tree is called _folded_, if it's in minimal form, i.e. if there are no two
 child nodes in a parent node sharing a common left part in their prefixes. Obviously, for 
-each string list, there exists a unique folded Prefixed Tree representation.
+each string list, there exists a unique folded _Prefixed Tree_ representation.
       
 
 # METHODS
