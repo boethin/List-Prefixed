@@ -44,7 +44,7 @@ $REGEX_ESCAPE = sub {
 
   # additionally apply $UC_ESCAPE_STYLE
   if ( defined(my $uc_form = &$UC_ESCAPE(0)) ) {
-    s/(\P{ASCII})/ sprintf $uc_form => ord $1 /eg;
+    s/\\?(\P{ASCII})/ sprintf $uc_form => ord $1 /eg;
   }
   
   $_;
