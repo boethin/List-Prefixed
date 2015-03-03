@@ -258,6 +258,35 @@ do {
   is_deeply $prefixed2 => $prefixed;
 };
 
+# Unicode escaped \x{FFFF}
+do {
+  my @s = sort { $a cmp $b } (
+    "Test",
+    "T\x{E4}st", # 'Täst'
+    "T\x{E4}\x{DF}t", # 'Täßt'
+    "T\x{E4}\x{DF}t\x{E2}n", # 'Täßtân'
+    "\x{442}\x{435}\x{441}\x{442}", # 'тест'
+    "\x{442}\x{435}\x{441}\x{442}\x{44B}", # 'тесты'
+    "\x{442}\x{435}\x{441}\x{442}\x{438}\x{440}\x{43E}\x{432}\x{430}\x{43D}\x{438}\x{435}", # 'тестирование'
+  );
+  my $prefixed = List::Prefixed->fold(@s);
+  isa_ok $prefixed => 'List::Prefixed';
+
+  # list
+  is_deeply scalar $prefixed->list => \@s;
+  is_deeply scalar $prefixed->list('T') => ["Test","T\x{E4}st","T\x{E4}\x{DF}t","T\x{E4}\x{DF}t\x{E2}n"];
+
+  my $re = $prefixed->regex;
+  is $re => '(?:T(?:est|\x{E4}(?:st|\x{DF}t(?:\x{E2}n)?))|\x{442}\x{435}\x{441}\x{442}(?:\x{438}\x{440}\x{43E}\x{432}\x{430}\x{43D}\x{438}\x{435}|\x{44B})?)';
+  my $qr = qr/^$re$/;
+  like $_ => $qr foreach @s;
+  unlike $_ => $qr foreach variants(@s);
+
+  # unfold
+  my $prefixed2 = List::Prefixed->unfold($re);
+  isa_ok $prefixed2 => 'List::Prefixed';
+  is_deeply $prefixed2 => $prefixed;
+};
 
 
 #########################
@@ -279,35 +308,35 @@ sub fisher_yates_shuffle     # credits to: http://www.perlmonks.org/?node_id=186
 
 # From a given list, create a list of variants, none of them not contained in the list
 sub variants {
-	my (%v,%chr,%str);
-	foreach ( @_ ) {
-		$chr{$_} = 1 foreach (split //);
-		$str{$_} = 1;
-	}
-	
-	foreach my $i ( keys %chr ) {
-		$v{$i} = 1 unless exists $str{$i};
-		foreach my $j ( keys %chr ) {
-			$v{$i.$j} = 1 unless exists $str{$i.$j};
-			$v{$j.$i} = 1 unless exists $str{$j.$i};
-		}
-	}
-	
-	foreach ( @_ ) {
-	
-		my @c = split //;
-		fisher_yates_shuffle(\@c);
-		my $w = join '', @c;
-		$v{$w} = 1 unless exists $str{$w};
-		
-		push @c, $c[0];
-		fisher_yates_shuffle(\@c);
-		my $w2 = join '', @c;
-		$v{$w2} = 1 unless exists $str{$w2};
-		
-	}
-	
-	return sort keys %v;
+  my (%v,%chr,%str);
+  foreach ( @_ ) {
+    $chr{$_} = 1 foreach (split //);
+    $str{$_} = 1;
+  }
+  
+  foreach my $i ( keys %chr ) {
+    $v{$i} = 1 unless exists $str{$i};
+    foreach my $j ( keys %chr ) {
+      $v{$i.$j} = 1 unless exists $str{$i.$j};
+      $v{$j.$i} = 1 unless exists $str{$j.$i};
+    }
+  }
+  
+  foreach ( @_ ) {
+  
+    my @c = split //;
+    fisher_yates_shuffle(\@c);
+    my $w = join '', @c;
+    $v{$w} = 1 unless exists $str{$w};
+    
+    push @c, $c[0];
+    fisher_yates_shuffle(\@c);
+    my $w2 = join '', @c;
+    $v{$w2} = 1 unless exists $str{$w2};
+    
+  }
+  
+  return sort keys %v;
 }
 
 
