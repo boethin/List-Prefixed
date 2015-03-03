@@ -142,7 +142,7 @@ In this case, `$UC_ESCAPE_STYLE` has no effect.
 # KNOWN BUGS
 
 The term _prefix_ refers to the storage order of characters. That is, prefix
-filtering with right-to-left written Unicode strings (such as Arabaic or Hebrew)
+filtering with right-to-left written Unicode strings (such as Arabic or Hebrew)
 goes to the wrong direction from the user's point of view.
 
 # EXPORT

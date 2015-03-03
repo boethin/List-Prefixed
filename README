@@ -138,7 +138,7 @@ CONFIGURATION VARIABLES
 KNOWN BUGS
     The term *prefix* refers to the storage order of characters. That is,
     prefix filtering with right-to-left written Unicode strings (such as
-    Arabaic or Hebrew) goes to the wrong direction from the user's point of
+    Arabic or Hebrew) goes to the wrong direction from the user's point of
     view.
 
 EXPORT
