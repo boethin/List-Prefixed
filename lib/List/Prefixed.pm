@@ -429,6 +429,12 @@ In this case, C<$UC_ESCAPE_STYLE> has no effect.
 
 =back
 
+=head1 KNOWN BUGS
+
+The term I<prefix> refers to the storage order of characters. That is, prefix
+filtering with right-to-left written Unicode strings (such as Arabaic or Heberew)
+goes to the wrong direction from the user's point of view.
+
 =head1 EXPORT
 
 Strictly OO, exports nothing.

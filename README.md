@@ -112,32 +112,38 @@ To skip Unicode escaping completely, use
     use List::Prefixed uc_escape_style => undef;  # do not escape
 
 Alternatively, you can control the style at runtime by way of
-[configuration variables](#configuration-variables).
+[configuration variables](#CONFIGURATION VARIABLES).
 
 # CONFIGURATION VARIABLES
 
 - _$UC\_ESCAPE\_STYLE_
 
-    Controls the escaping style for Unicode (non-ASCII) characters.
-    The value can be one of the following:
+Controls the escaping style for Unicode (non-ASCII) characters.
+The value can be one of the following:
 
     - _'PCRE'_
 
-        Default style `\x{FFFF}`
+    Default style `\x{FFFF}`
 
     - _'Java'_
 
-        Java etc. style `\uFFFF`
+    Java etc. style `\uFFFF`
 
     - _undef_
 
-        Do not escape Unicode characters at all. This may result in shorter expressions
-        but may cause encoding issues under some circumstances.
+    Do not escape Unicode characters at all. This may result in shorter expressions
+    but may cause encoding issues under some circumstances.
 
 - _$REGEX\_ESCAPE_, _$REGEX\_UNESCAPE_
 
-    By providing string functions one can customize the escaping behavior arbitrarily.
-    In this case, `$UC_ESCAPE_STYLE` has no effect.
+By providing string functions one can customize the escaping behavior arbitrarily.
+In this case, `$UC_ESCAPE_STYLE` has no effect.
+
+# KNOWN BUGS
+
+The term _prefix_ refers to the storage order of characters. That is, prefix
+filtering with right-to-left written Unicode strings (such as Arabaic or Heberew)
+goes to the wrong direction from the user's point of view.
 
 # EXPORT
 
