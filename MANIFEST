@@ -6,4 +6,7 @@ README.md
 README.pod
 t/List-Prefixed.t
 t/List-Prefixed_large.t
+t/data/modulenames.gz
+t/data/modulenames.sh
+t/data/modulenames_List.gz
 lib/List/Prefixed.pm
