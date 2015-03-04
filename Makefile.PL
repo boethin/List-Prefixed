@@ -1,4 +1,4 @@
-use 5.014002;
+use 5.004;
 use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
@@ -7,6 +7,11 @@ WriteMakefile(
 	VERSION_FROM      => 'lib/List/Prefixed.pm', # finds $VERSION
 	ABSTRACT_FROM     => 'lib/List/Prefixed.pm', # retrieve abstract from module
 	PREREQ_PM         => {}, # e.g., Module::Name => 1.1
+	TEST_REQUIRES     => {
+		'Test::More' => '0.98',
+		'File::Basename' => '2.77',
+		'IO::Zlib' => '1.10',
+	},
 	AUTHOR            => 'Sebastian Böthinr <boethin@xn--domain.net>',
 	
 	(eval { ExtUtils::MakeMaker->VERSION(6.46) } ? (
