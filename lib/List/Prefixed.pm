@@ -329,7 +329,9 @@ This leads to an efficient implementation of auto-completion.
 
 =back
 
-For example, from the L<Perl package names|https://cpan.metacpan.org/modules/02packages.details.txt> indexed on CPAN, one can get a list of about 82K module names that takes about 2.1M data. C<List::Prefixed> can create a regular expression of about 900K that matches exactly these names.
+For example, from Perl L<package names|https://cpan.metacpan.org/modules/02packages.details.txt>
+indexed on CPAN, one can get a list of about 82K module names that takes more than 2M data.
+We can compress the list to a regular expression of about 900K that matches exactly all these names.
 
 A I<Prefixed List> is a tree consisting of node triples, formally defined as follows:
 
@@ -441,7 +443,11 @@ The term I<prefix> refers to the storage order of characters. That is, prefix
 filtering with right-to-left written Unicode strings (such as Arabic or Hebrew)
 goes to the wrong direction from the user's point of view.
 
-Large lists may cause deep recursion within the L<fold|/fold> method. To avoid a lot of L<Deep recursion on anonymous subroutine|http://perldoc.perl.org/perldiag.html> warnings, there is a C<no warnings 'recursion'> directive in place. This is worth mentioning, though it's not actually a bug.
+Large lists may cause deep recursion within the L<fold|/fold> method. To avoid a lot of L<Deep recursion on anonymous subroutine|http://perldoc.perl.org/perldiag.html> warnings, there is a
+
+  no warnings 'recursion'
+
+directive in place. This is worth mentioning, though it's not actually a bug.
 
 =head1 EXPORT
 
