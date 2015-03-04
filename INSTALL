@@ -23,7 +23,7 @@ The module requires no other modules and libraries.
 The following modules are required for tests:
   - Test::More
   - File::Basename
-  - PerlIO::gzip
+  - IO::Zlib or PerlIO::gzip or /bin/gunzip
 
 REPOSITORY
 

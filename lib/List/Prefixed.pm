@@ -1,5 +1,5 @@
 package List::Prefixed;
-use 5.014002;
+use 5.004;
 use strict;
 use warnings;
 use Carp;
