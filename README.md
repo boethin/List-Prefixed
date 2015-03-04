@@ -41,6 +41,8 @@ Thus, the prefixed list leads to a natural way of serialization and de-serializa
 - Sub lists sharing a common prefix can be extracted efficently from a prefixed list. 
 This leads to an efficient implementation of auto-completion.
 
+For example, from the [Perl package names](https://cpan.metacpan.org/modules/02packages.details.txt) indexed on CPAN, one can get a list of about 82K module names that takes about 2.1M data. `List::Prefixed` can create a regular expression of about 900K that matches exactly these names.
+
 A _Prefixed List_ is a tree consisting of node triples, formally defined as follows:
 
     node: ( prefix [node-list] opt )
@@ -112,38 +114,40 @@ To skip Unicode escaping completely, use
     use List::Prefixed uc_escape_style => undef;  # do not escape
 
 Alternatively, you can control the style at runtime by way of
-[configuration variables](#CONFIGURATION VARIABLES).
+[configuration variables](#configuration-variables).
 
 # CONFIGURATION VARIABLES
 
 - _$UC\_ESCAPE\_STYLE_
 
-Controls the escaping style for Unicode (non-ASCII) characters.
-The value can be one of the following:
+    Controls the escaping style for Unicode (non-ASCII) characters.
+    The value can be one of the following:
 
     - `'PCRE'`
 
-    Default style `\x{FFFF}`
+        Default style `\x{FFFF}`
 
     - `'Java'`
 
-    Java etc. style `\uFFFF`
+        Java etc. style `\uFFFF`
 
     - `undef`
 
-    Do not escape Unicode characters at all. This may result in shorter expressions
-    but may cause encoding issues under some circumstances.
+        Do not escape Unicode characters at all. This may result in shorter expressions
+        but may cause encoding issues under some circumstances.
 
 - _$REGEX\_ESCAPE_, _$REGEX\_UNESCAPE_
 
-By providing string functions one can customize the escaping behavior arbitrarily.
-In this case, `$UC_ESCAPE_STYLE` has no effect.
+    By providing string functions one can customize the escaping behavior arbitrarily.
+    In this case, `$UC_ESCAPE_STYLE` has no effect.
 
 # KNOWN BUGS
 
 The term _prefix_ refers to the storage order of characters. That is, prefix
 filtering with right-to-left written Unicode strings (such as Arabic or Hebrew)
 goes to the wrong direction from the user's point of view.
+
+Large lists may cause deep recursion within the [fold](#fold) method. To avoid a lot of [Deep recursion on anonymous subroutine](http://perldoc.perl.org/perldiag.html) warnings, there is a `no warnings 'recursion'` directive in place. This is worth mentioning, though it's not actually a bug.
 
 # EXPORT
 

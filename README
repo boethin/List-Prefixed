@@ -44,6 +44,12 @@ DESCRIPTION
         prefixed list. This leads to an efficient implementation of
         auto-completion.
 
+    For example, from the Perl package names
+    <https://cpan.metacpan.org/modules/02packages.details.txt> indexed on
+    CPAN, one can get a list of about 82K module names that takes about 2.1M
+    data. "List::Prefixed" can create a regular expression of about 900K
+    that matches exactly these names.
+
     A *Prefixed List* is a tree consisting of node triples, formally defined
     as follows:
 
@@ -140,6 +146,12 @@ KNOWN BUGS
     prefix filtering with right-to-left written Unicode strings (such as
     Arabic or Hebrew) goes to the wrong direction from the user's point of
     view.
+
+    Large lists may cause deep recursion within the fold method. To avoid a
+    lot of Deep recursion on anonymous subroutine
+    <http://perldoc.perl.org/perldiag.html> warnings, there is a "no
+    warnings 'recursion'" directive in place. This is worth mentioning,
+    though it's not actually a bug.
 
 EXPORT
     Strictly OO, exports nothing.
