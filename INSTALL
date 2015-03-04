@@ -18,7 +18,12 @@ Re-generate README files from embedded pod documentation:
 
 DEPENDENCIES
 
-This module currently requires no other modules and libraries.
+The module requires no other modules and libraries.
+
+The following modules are required for tests:
+  - Test::More
+  - File::Basename
+  - PerlIO::gzip
 
 REPOSITORY
 

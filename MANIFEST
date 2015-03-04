@@ -5,4 +5,5 @@ README
 README.md
 README.pod
 t/List-Prefixed.t
+t/List-Prefixed_large.t
 lib/List/Prefixed.pm
