@@ -6,7 +6,7 @@ use Carp;
 
 # -- globals --
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 # Public global variables.
 our (
